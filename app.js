@@ -2,6 +2,8 @@
 var scores, roundScore, activePlayer, gamePlaying;  // this is the variables in global scope so we can access them from everywhere in our code, we don't need to define it here, we simply need to declare them
 init();  // call the init function that set all values to 0, remove the winner clas and active class from the last round, and add an active class to player 0
 
+var lastDice;
+
 document.querySelector('.btn-roll').addEventListener('click', function() {  //anonymus function -> function that can't be used anywhere else
 	if (gamePlaying) {  //gamePlaying is the variable that is already set to true, we want to player roll the dice only when game is playing, after we have the winner gameplaying variable would be false
 
@@ -16,13 +18,23 @@ document.querySelector('.btn-roll').addEventListener('click', function() {  //an
 		diceDOM.src = 'dice-' + dice + '.png'; // change the source attribut from html, this is a simple trick how to display image that show random number given by variable dice
 	//3. Update the round score IF the rolled number was not a 1
 
-			if (dice !== 1) {  // Add score
+			if (dice===6 && lastDice ===6) {  // code challenge 1 -> if player had two 6 in a row, he loses entire score
+				//Player looses score
+
+				scores[activePlayer] = 0;
+				document.querySelector('#score-' + activePlayer).textContent = '0'; 
+				nextPlayer();
+
+
+			} else if (dice !== 1) {  // Add score
 				roundScore += dice;  //roundScore = roundScore + dice
 				document.querySelector('#current-' + activePlayer).textContent = roundScore;  // this is also a little trick, if the active player is number 0 then the current 0 element would get the text content
 				} else {
 			//next player
 			nextPlayer();
 		}
+
+		lastDice = dice; //
 	}
 });
 
@@ -84,3 +96,4 @@ function init() {
 	// why do we first remove active class from bith player and then add active class to player 0?
 	// imagine that player 0 was the active player from the last round, active class would be there, and then we called active class on player 0 again so the player 0 would have two active classes 
 }
+
