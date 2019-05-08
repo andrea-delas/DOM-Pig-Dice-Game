@@ -34,7 +34,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {  //an
 			nextPlayer();
 		}
 
-		lastDice = dice; //
+		lastDice = dice; // storing the value of last dice number
 	}
 });
 
