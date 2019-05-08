@@ -44,8 +44,19 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 			scores[activePlayer] += roundScore;  // add score that active player won from this round to the score that player won in last round
 			// Update the UI
 			document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];  
+			
+				var input = document.querySelector('.final-score').value;
+				var winningScore;
+				//Undefined, 0, null or "" are COERCED to false
+				//anything else is COERCED to true
+				if (input) {
+					winningScore = input;
+				} else {
+					winningScore = 100;
+				}
+
 			// Check if player won the game
-			if (scores[activePlayer] >= 100) {
+			if (scores[activePlayer] >= winningScore) {
 				document.querySelector('#name-' + activePlayer).textContent = 'Winner!'; // replacing player's name with the word Winner
 				document.querySelector('.dice').style.display = 'none';   // change the property from css -> dice is gone
 				document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner'); // add winner class to panel of the player who win the game 
