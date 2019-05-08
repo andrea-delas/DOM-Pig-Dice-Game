@@ -10,14 +10,25 @@ document.querySelector('.btn-roll').addEventListener('click', function() {  //an
 
 	//1. Random number
 
-		var dice = Math.floor(Math.random() * 6) + 1; // random number between 1 and 6 save in variable dice
+		var dice1 = Math.floor(Math.random() * 6) + 1; // random number between 1 and 6 save in variable dice
+		var dice2 = Math.floor(Math.random() * 6) + 1; // random number between 1 and 6 save in variable dice
 	//2. Display the result
 		
-		var diceDOM = document.querySelector('.dice'); // creating a variable where we can store the selection and then used it again, sticking to the DRY principle - Don't repeat yourself!
-		diceDOM.style.display = 'block'; // display image of dice
-		diceDOM.src = 'dice-' + dice + '.png'; // change the source attribut from html, this is a simple trick how to display image that show random number given by variable dice
+		document.getElementById('dice-1').style.display = 'block';
+		document.getElementById('dice-2').style.display = 'block';
+		
+		document.getElementById('dice-1').src = 'dice-' + dice1 + '.png'; // change the source attribut from html, this is a simple trick how to display image that show random number given by variable dice
+		document.getElementById('dice-2').src = 'dice-' + dice2 + '.png';
 	//3. Update the round score IF the rolled number was not a 1
 
+	if (dice1 !== 1 && dice2 !==1) {  // Add score
+				roundScore += dice1 + dice2;  //roundScore = roundScore + dice
+				document.querySelector('#current-' + activePlayer).textContent = roundScore;  // this is also a little trick, if the active player is number 0 then the current 0 element would get the text content
+				} else {
+			//next player
+			nextPlayer();
+		}
+/*
 			if (dice===6 && lastDice ===6) {  // code challenge 1 -> if player had two 6 in a row, he loses entire score
 				//Player looses score
 
@@ -34,7 +45,8 @@ document.querySelector('.btn-roll').addEventListener('click', function() {  //an
 			nextPlayer();
 		}
 
-		lastDice = dice; // storing the value of last dice number
+		lastDice = dice; // storing the value of last dice number 
+		*/
 	}
 });
 
@@ -58,7 +70,8 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 			// Check if player won the game
 			if (scores[activePlayer] >= winningScore) {
 				document.querySelector('#name-' + activePlayer).textContent = 'Winner!'; // replacing player's name with the word Winner
-				document.querySelector('.dice').style.display = 'none';   // change the property from css -> dice is gone
+				document.getElementById('dice-1').style.display = 'none';
+		document.getElementById('dice-2').style.display = 'none';  // change the property from css -> dice is gone
 				document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner'); // add winner class to panel of the player who win the game 
 				document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active'); // remove the active player class from the panel, we didn't use toggle here because toggle add the class if it's not there, and if it's there then remove it, and we know that the winner class isn't there so we add it, and the active class is there so we remove it
 				gamePlaying = false;  // this is where we detect if the player won the game  so this is a perfect place to set game playing variable to false
@@ -81,7 +94,8 @@ function nextPlayer() {
 	//document.querySelector('.player-0-panel').classList.remove('active');   when we remove and add class to change the active planer we change from player 1 to player 2 but when player 2 roll 1 the active panel doesn't change
 	//document.querySelector('.player-1-panel').classList.add('active');      that's way we used toggle
 
-	document.querySelector('.dice').style.display = 'none';  // when the next player's turn is, we don't want any dice visible until he start roll the dice
+	document.getElementById('dice-1').style.display = 'none';
+		document.getElementById('dice-2').style.display = 'none';  // when the next player's turn is, we don't want any dice visible until he start roll the dice
 };
 
 	document.querySelector('.btn-new').addEventListener('click', init); // not calling the anonymus function but instead we pass the init function to event listener function, that's way we don't use the function call operator () because if we write () then the function would be called immediately, and we do not want that, we want to call the function when click on the new game button
@@ -92,7 +106,8 @@ function init() {
 	roundScore = 0;
 	gamePlaying = true;
 
-	document.querySelector('.dice').style.display = 'none';  // remove the image of dice
+	document.getElementById('dice-1').style.display = 'none';
+		document.getElementById('dice-2').style.display = 'none';  // remove the image of dice
 	document.getElementById('score-0').textContent = '0';    // set all values (score and current from player 1 and player 2) to 0
 	document.getElementById('score-1').textContent = '0';
 	document.getElementById('current-0').textContent = '0';
